@@ -1,5 +1,6 @@
 package com.example.statbuddy
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -17,11 +18,15 @@ class RegisterActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             StatBuddyTheme{
-                RegisterScreen { name, email, password ->
-                    // TODO: Handle Firebase registration here
-                    Log.d("Register", "Name: $name, Email: $email, Password: $password")
-
-                }
+                RegisterScreen (
+                    onRegisterClick = { name, email, password->
+                        startActivity(Intent(this, HomeActivity::class.java))
+                    },
+                    onNavigateToLogin = {
+                        startActivity(Intent(this, RegisterActivity::class.java))
+                        finish()
+                    }
+                )
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.statbuddy
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -19,7 +20,10 @@ import com.example.statbuddy.ui.theme.StatBuddyTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    onLoginClick: (email: String, password: String) -> Unit
+    onLoginClick: (email: String, password: String) -> Unit,
+    onNavigateToRegister: () -> Unit
+
+
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -99,6 +103,20 @@ fun LoginScreen(
         ) {
             Text("Login")
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row {
+            Text("Don't have an account?")
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = "Register here",
+                color = MaterialTheme.colorScheme.secondary,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.clickable { onNavigateToRegister() }
+            )
+        }
+
     }
 }
 
@@ -106,6 +124,10 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     StatBuddyTheme {
-        LoginScreen { _, _ -> }
+        LoginScreen(
+            onLoginClick = { _, _ -> },
+            onNavigateToRegister = {}
+        )
     }
 }
+

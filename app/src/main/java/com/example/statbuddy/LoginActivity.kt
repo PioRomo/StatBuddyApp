@@ -1,7 +1,7 @@
 package com.example.statbuddy
 
 import android.os.Bundle
-import android.util.Log
+import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,10 +15,15 @@ class LoginActivity : ComponentActivity() {
         installSplashScreen()
         setContent {
             StatBuddyTheme {
-                LoginScreen { email, password ->
-                    Log.d("Login", "Email: $email, Password: $password")
-                    // TODO: Authenticate with Firebase or other backend
-                }
+                LoginScreen(
+                    onLoginClick = { email, password ->
+                        startActivity(Intent(this, HomeActivity::class.java))
+                    },
+                    onNavigateToRegister = {
+                        startActivity(Intent(this, RegisterActivity::class.java))
+                        finish()
+                    }
+                )
             }
         }
     }

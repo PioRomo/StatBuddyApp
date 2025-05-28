@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -33,7 +34,8 @@ import com.example.statbuddy.ui.theme.StatBuddyTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
-    onRegisterClick: (name: String, email: String, password: String) -> Unit
+    onRegisterClick: (name: String, email: String, password: String) -> Unit,
+    onNavigateToLogin: () -> Unit
 ) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -134,6 +136,19 @@ fun RegisterScreen(
         ) {
             Text("Register")
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row {
+            Text("Already have an account?")
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = "Sign in here",
+                color = MaterialTheme.colorScheme.secondary,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.clickable { onNavigateToLogin() }
+            )
+        }
     }
 }
 
@@ -187,6 +202,9 @@ fun GlisteningLogo() {
 @Composable
 fun RegisterScreenPreview() {
     StatBuddyTheme {
-        RegisterScreen { _, _, _ -> }
+        RegisterScreen (
+            onRegisterClick = {_, _ , _->},
+            onNavigateToLogin = {}
+        )
     }
 }
