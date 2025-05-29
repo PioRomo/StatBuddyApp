@@ -21,13 +21,12 @@ import com.example.statbuddy.ui.theme.StatBuddyTheme
 @Composable
 fun LoginScreen(
     onLoginClick: (email: String, password: String) -> Unit,
-    onNavigateToRegister: () -> Unit
-
-
+    onNavigateToRegister: () -> Unit,
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
+    val isFormValid = email.isNotBlank() && password.isNotBlank()
 
     Column(
         modifier = Modifier
@@ -96,9 +95,12 @@ fun LoginScreen(
         Button(
             onClick = { onLoginClick(email, password) },
             modifier = Modifier.fillMaxWidth(),
+            enabled = isFormValid,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.tertiary
+                contentColor = MaterialTheme.colorScheme.tertiary,
+                disabledContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f),
+                disabledContentColor = MaterialTheme.colorScheme.tertiary
             )
         ) {
             Text("Login")

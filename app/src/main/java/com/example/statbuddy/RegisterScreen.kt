@@ -1,5 +1,6 @@
 package com.example.statbuddy
 
+import android.widget.Toast
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -27,6 +28,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.example.statbuddy.ui.theme.StatBuddyTheme
 
@@ -41,6 +43,8 @@ fun RegisterScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
+    val isFormValid = name.isNotBlank() && email.isNotBlank() && password.isNotBlank()
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -125,14 +129,21 @@ fun RegisterScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = { onRegisterClick(name, email, password) },
+            onClick = {
+                if (!isFormValid) {
+                    Toast.makeText(context, "Please fill out all fields", Toast.LENGTH_SHORT).show()
+                } else {
+                    onRegisterClick(name, email, password)
+                }
+            },
+            enabled = isFormValid,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondary,     // background color
-                contentColor = MaterialTheme.colorScheme.tertiary      // text color
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.tertiary,
+                disabledContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f),
+                disabledContentColor = MaterialTheme.colorScheme.tertiary
             )
-
-
         ) {
             Text("Register")
         }
