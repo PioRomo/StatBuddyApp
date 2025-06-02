@@ -1,16 +1,20 @@
 package com.example.statbuddy
 
+import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.statbuddy.ui.theme.StatBuddyTheme
 
 @Composable
 fun HomeScreen() {
+    val context = LocalContext.current
     var selectedItem by remember { mutableStateOf(1) }
 
     Scaffold(
@@ -19,20 +23,23 @@ fun HomeScreen() {
                 NavigationBarItem(
                     selected = selectedItem == 0,
                     onClick = { selectedItem = 0 },
-                    label = { Text("Insights") },
-                    icon = {}
+                    icon = { Icon(painterResource(id = R.drawable.performance_factor), contentDescription = "Insights") },
+                    label = { Text("Insights") }
                 )
                 NavigationBarItem(
                     selected = selectedItem == 1,
                     onClick = { selectedItem = 1 },
-                    label = { Text("Home") },
-                    icon = {}
+                    icon = { Icon(painterResource(id = R.drawable.home_icon), contentDescription = "Home") },
+                    label = { Text("Home") }
                 )
                 NavigationBarItem(
                     selected = selectedItem == 2,
-                    onClick = { selectedItem = 2 },
-                    label = { Text("Profile") },
-                    icon = {}
+                    onClick = {
+                        selectedItem = 2
+                        context.startActivity(Intent(context, ProfileActivity::class.java))
+                    },
+                    icon = { Icon(painterResource(id = R.drawable.profile_icon), contentDescription = "Profile") },
+                    label = { Text("Profile") }
                 )
             }
         }
